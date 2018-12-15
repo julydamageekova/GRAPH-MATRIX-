@@ -1,0 +1,94 @@
+    #include <iostream>
+    using namespace std;
+
+    void DXTR(int** G, int V, int* d){
+        int used[V];
+        int temp,minindex, min;
+        for (int i = 0; i < V; i++){
+            d[i] = 10000;
+            used[i] = 0;
+        }
+        d[0] = 0;
+        do {
+            minindex = 10000;
+            min = 10000;
+            for (int i = 0; i < V; i++){
+              if ((used[i] == 0) && (d[i] < min)){
+                min = d[i];
+                minindex = i;
+              }
+            }
+            if (minindex != 10000){
+              for (int i = 0; i<V; i++){
+                if (G[minindex][i] > 0){
+                  temp = min + G[minindex][i];
+                  if (temp < d[i])
+                    d[i] = temp;
+                }
+              }
+              used[minindex] = 1;
+            }
+        } while (minindex < 10000);
+
+        cout << " Distants from 0:" << endl;
+        for (int i = 0; i<V; i++)
+            cout << i << " : " << d[i] << endl;
+    }
+
+    void way(int** G, int V, int* d){
+        int min;
+        cout << " Enter vertice: ";
+        cin >> min;
+        int way[V];
+        int end = min;
+        way[0] = min;
+        int k = 1;
+        int weight = d[end];
+
+        while (end > 0){
+            for(int i=0; i<V; i++)
+                if (G[end][i] != 0){
+                    int temp = weight - G[end][i];
+                    if (temp == d[i]){
+                        weight = temp;
+                        end = i;
+                        way[k] = i;
+                        k++;
+                    }
+                }
+    }
+    cout << " The shortest way:   " << endl;
+    for (int i = k-1; i>=0; i--)
+        cout << " -> "<< way[i] ;
+    }
+
+    void matrix(int**G, int V){
+        for (int i = 0; i<V; i++){
+            G[i][i] = 0;
+            int temp;
+            for (int j = i + 1; j < V; j++) {
+                cout << " Enter weight of edge "  << i << " - " << j << " ";
+                cin >> temp;
+                G[i][j] = temp;
+                G[j][i] = temp;
+            }
+        }
+    }
+
+int main(){
+    int V;
+    cout << " Enter amount of vertices:  " ;
+    cin >> V;
+    int **G = new int*[V];
+    for(int i = 0; i < V; i++)
+        G[i] = new int [V];
+    matrix(G,V);
+    int d[V];
+    DXTR(G,V,d);
+    bool flag;
+    cout << " Do you want to find some way ? (1/0)  ";
+    cin >> flag;
+    if(flag)
+        way(G,V,d);
+    return 0;
+}
