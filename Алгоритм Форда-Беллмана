@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+const int INF = 1000000000;
+
+void FB(vector <pair <int, pair <int, int> > > & G, int E, int V, int v) {
+	vector<int> d (V, INF);
+	d[v] = 0;
+	vector<int> p (V, -1);
+	for (int j = 0; j < V; j++) {
+		bool any = false;
+		for (int j=0; j < E; ++j){
+            int a = G[j].second.first,  b = G[j].second.second,  l = G[j].first;
+			if (d[a] < INF)
+				if (d[b] > d[a] + l) {
+					d[b] = d[a] + l;
+					p[b] = a;
+					any = true;
+				}
+		}
+		if (!any)  break;
+	}
+	int t;
+	cout << " Enter some vertice: ";
+	cin >> t;
+	if (d[t] == INF)
+		cout << "No path from " << v << " to " << t << ".";
+	else {
+		vector<int> path;
+		for (int cur=t; cur!=-1; cur=p[cur])
+			path.push_back (cur);
+		reverse (path.begin(), path.end());
+
+		cout << "Path from " << v << " to " << t << ": ";
+		for (int i=0; i < path.size(); ++i)
+			cout << path[i] << ' ';
+	}
+}
+
+    void matrix(vector <pair <int, pair <int, int> > > & G, int E){
+        cout << endl;
+        for (int i = 0; i < E; i++){
+            int temp;
+            cout << " Enter edge: ";
+            int k,l;
+            cin >> k >> l;
+            cout  << " Weight of "  << k << "-" << l << " : ";
+            cin >> temp;
+            cout << endl;
+            G[i].first = temp;
+            G[i].second.first = k;
+            G[i].second.second = l;
+        }
+
+    }
+
+int main()
+{
+        int V,E,v;
+        cout << " Enter amount of vertices: ";
+        cin >> V;
+        cout << " Enter amount of edges: ";
+        cin >> E;
+        vector <pair <int, pair <int, int> > > G(E);
+        matrix(G,E);
+        cout << " Enter the main vertice: ";
+        cin >> v;
+        FB(G,E,V,v);
+        return 0;
+}
