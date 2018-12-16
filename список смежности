@@ -29,5 +29,5 @@ int main()
     cin >> V >> E;
     vector <vector<int> > G(V);
     list(G,V,E)
-
+    return 0;
 }
