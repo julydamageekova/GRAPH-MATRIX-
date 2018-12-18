@@ -4,13 +4,13 @@
 using namespace std;
 
 bool try_kuhn (vector <vector<int> >& G,int v, vector<bool>& used, vector<int>& mt){
-	if (used[v])  return false;
+	if (used[v])  return false;//увеличивающая цепь есть
 	used[v] = true;
 	for (int i=0; i<G[v].size(); ++i) {
 		int to = G[v][i];
-		if (mt[to] == -1 || try_kuhn (G,mt[to],used,mt)) {
+		if (mt[to] == -1 || try_kuhn (G,mt[to],used,mt)) {//есть ли увеличивающая цепь (идем по стрелочкам)2
 			mt[to] = v;
-			return true;
+			return true; //не были в вершине 2 доли
 		}
 	}
 	return false;
@@ -40,13 +40,13 @@ int main(){
 	mt.assign (V, -1);
 	int v;
 	for (int v = 0; v < N; v++) {
-		used.assign (N, false);
+		used.assign (N, false);//обнуляем посещенные вершины
 		try_kuhn (G,v,used,mt);
 	}
 
 	for (int i=0; i<V; ++i)
 		if (mt[i] != -1)
-			cout << mt[i]  << " "<< i;
+			cout << mt[i]  << " " << i << endl;
     return 0;
 }
 
