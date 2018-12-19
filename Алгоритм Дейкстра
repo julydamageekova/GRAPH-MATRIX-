@@ -1,34 +1,34 @@
-    #include <iostream>
+      #include <iostream>
     using namespace std;
 
     void DXTR(int** G, int V, int* d){
         int used[V];
         int temp,minindex, min;
         for (int i = 0; i < V; i++){
-            d[i] = 10000;
-            used[i] = 0;
+            d[i] = 10000; // расстояние до всех точек бесконечность
+            used[i] = 0; // все вершины непосещнные
         }
-        d[0] = 0;
-        do {
+        d[0] = 0; // расстояние до 0 = 0
+        do { //итеративный обход в ширину
             minindex = 10000;
             min = 10000;
             for (int i = 0; i < V; i++){
-              if ((used[i] == 0) && (d[i] < min)){
+              if ((used[i] == 0) && (d[i] < min)){ 
                 min = d[i];
-                minindex = i;
+                minindex = i; //поиск минимального индекса (первый раз 0)
               }
             }
-            if (minindex != 10000){
+            if (minindex != 10000){ // если есть непосещенная вершина
               for (int i = 0; i<V; i++){
                 if (G[minindex][i] > 0){
                   temp = min + G[minindex][i];
-                  if (temp < d[i])
-                    d[i] = temp;
+                  if (temp < d[i]) //если значение вершины больше, чем значение ребра + значение "предка"
+                    d[i] = temp; //поменять его
                 }
               }
               used[minindex] = 1;
             }
-        } while (minindex < 10000);
+        } while (minindex < 10000); //пока есть непосещенные вершины
 
         cout << " Distants from 0:" << endl;
         for (int i = 0; i<V; i++)
