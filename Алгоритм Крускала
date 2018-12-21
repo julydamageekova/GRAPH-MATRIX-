@@ -6,13 +6,14 @@ using namespace std;
     void KRSKL (vector <pair <int, pair <int, int> > >& G, int V, int E){
         int cost = 0;
         vector <pair <int,int> > res; // вектор с ребрами остовного дерева
-        sort(G.begin(), G.end()); //оортировка вектора по весу ребра
+        sort(G.begin(), G.end()); //сортировка вектора по весу ребра
         vector <int> tree_id (V); //номер дерева, котооому принадлежит вершина
         for (int i = 0; i < V; i++) //изначально каждая вершина лежит в своем дереве{
             tree_id[i] = i;
         for (int i = 0; i < E; i++){
             int a = G[i].second.first,  b = G[i].second.second,  l = G[i].first;
             if (tree_id[a] != tree_id[b]){ // если вершины не принадлежат одному поддереву
+                cost += l; //добавить минимальное ребро
                 res.push_back (make_pair (a, b)); // образовать между ними ребро
                 int old_id = tree_id[b],  new_id = tree_id[a];
                 for (int j=0; j < V; ++j) // переобозначить принадлежности поддереву
