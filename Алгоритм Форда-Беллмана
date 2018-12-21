@@ -6,12 +6,12 @@ using namespace std;
 const int INF = 1000000000;
 
 void FB(vector <pair <int, pair <int, int> > > & G, int E, int V, int v) {
-	vector<int> d (V, INF);
+	vector<int> d (V, INF); // массив с расстояниями
 	d[v] = 0;
-	vector<int> p (V, -1);
-	for (int j = 0; j < V; j++) {
+	vector<int> p (V, -1); //для каждой вершины храним предка в кратчайшем пути
+	for (int i = 0; i < V; i++) { //проходим по всем вершинам
 		bool any = false;
-		for (int j=0; j < E; ++j){
+		for (int j = 0; j < E; ++j){
             int a = G[j].second.first,  b = G[j].second.second,  l = G[j].first;
 			if (d[a] < INF)
 				if (d[b] > d[a] + l) {
@@ -70,3 +70,4 @@ int main()
         FB(G,E,V,v);
         return 0;
 }
+
